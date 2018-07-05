@@ -162,7 +162,7 @@ export default class PostList extends React.PureComponent {
 
             this.extraPagesLoaded = 0;
 
-            this.setState({atEnd: false, lastViewed: this.props.lastViewedAt, isDoingInitialLoad: !this.props.posts, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
+            this.setState({atEnd: false, isDoingInitialLoad: !this.props.posts, unViewedCount: 0}); // eslint-disable-line react/no-did-update-set-state
 
             this.loadPosts(this.props.channel.id);
         }
@@ -310,7 +310,7 @@ export default class PostList extends React.PureComponent {
 
     setUnreadsBelow = (posts, currentUserId) => {
         const unViewedCount = posts.reduce((count, post) => {
-            if (post.create_at > this.state.lastViewed &&
+            if (post.create_at > this.props.lastViewedAt &&
                 post.user_id !== currentUserId &&
                 post.state !== Constants.POST_DELETED) {
                 return count + 1;
@@ -414,7 +414,6 @@ export default class PostList extends React.PureComponent {
 
         if (this.checkBottom()) {
             this.setState({
-                lastViewed: new Date().getTime(),
                 unViewedCount: 0,
                 isScrolling: false,
             });
